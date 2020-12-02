@@ -91,7 +91,7 @@ bool xSG33::IAQinit(void) {
 }
 
 
-bool xSG33::IAQmeasure(void) {
+bool xSG33::IAQmeasure() {
   uint8_t command[2];
   command[0] = 0x20;
   command[1] = 0x08;
@@ -234,5 +234,29 @@ uint8_t xSG33::generateCRC(uint8_t *data, uint8_t datalen) {
 
 namespace sg33
 {
-	xSG33 IAQ = new xSG33();
+	xSG33 IAQ = xSG33();
+	
+	//%
+	bool begin()
+	{
+		return IAQ.begin();
+	}
+	
+	//%
+	bool IAQmeasure()
+	{
+		return IAQ.IAQmeasure();
+	}
+	
+	//%
+	uint16_t getTVOC()
+	{
+		return IAQ.TVOC;
+	}
+	
+	//%
+	uint16_t getCO2()
+	{
+		return IAQ.eCO2;
+	}
 }
