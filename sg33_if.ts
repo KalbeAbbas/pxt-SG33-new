@@ -1,6 +1,5 @@
 namespace sg33
 {
-	begin()
 	
 	//%shim=sg33::begin
 	export function begin():boolean
@@ -39,4 +38,6 @@ namespace sg33
 		IAQmeasure()
 		return getCO2()
 	}
+	
+	begin()
 }

@@ -91,7 +91,7 @@ bool xSG33::IAQinit(void) {
 }
 
 
-bool xSG33::IAQmeasure() {
+bool xSG33::IAQmeasure(void) {
   uint8_t command[2];
   command[0] = 0x20;
   command[1] = 0x08;
@@ -176,7 +176,7 @@ bool xSG33::readWordFromCommand(uint8_t command[],
     return false;
   }*/
   
-  uBit.i2c.write(SGP30_I2CADDR_DEFAULT, (BUFFER_TYPE)command, commandLength, false);
+  uBit.i2c.write(SGP30_I2CADDR_DEFAULT << 1, (BUFFER_TYPE)command, commandLength, false);
 
   //delay(delayms);
   
@@ -192,7 +192,7 @@ bool xSG33::readWordFromCommand(uint8_t command[],
     return false;
   }*/
   
-  uBit.i2c.read(SGP30_I2CADDR_DEFAULT, (BUFFER_TYPE)replybuffer, replylen, false);
+  uBit.i2c.read(SGP30_I2CADDR_DEFAULT << 1, (BUFFER_TYPE)replybuffer, replylen, false);
 
   for (uint8_t i = 0; i < readlen; i++) {
     uint8_t crc = generateCRC(replybuffer + i * 3, 2);
