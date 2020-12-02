@@ -1,6 +1,6 @@
 {
     "name": "SG33 new",
-    "version": "0.0.0",
+    "version": "0.0.2",
     "description": "SG33 sensor using SGP30",
     "license": "MIT",
     "dependencies": {
@@ -11,9 +11,9 @@
         "README.md",
         "main.blocks",
         "main.ts",
-		"xSG33.h",
-		"xSG33.cpp",
-		"sg33_if.ts"
+        "xSG33.h",
+        "xSG33.cpp",
+        "sg33_if.ts"
     ],
     "testFiles": [
         "test.ts"
@@ -22,5 +22,5 @@
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }
