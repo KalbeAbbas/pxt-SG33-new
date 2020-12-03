@@ -27,11 +27,14 @@
 
 #include "xSG33.h"
 
+
 #if MICROBIT_CODAL
 #define BUFFER_TYPE uint8_t*
 #else
 #define BUFFER_TYPE char*
 #endif
+
+#define I2C_DEBUG 1
 
 using namespace pxt;
 
@@ -56,20 +59,22 @@ bool xSG33::begin() {
   uint8_t command[2];
   command[0] = 0x36;
   command[1] = 0x82;
-  if (!readWordFromCommand(command, 2, 10, serialnumber, 3))
-    return false;
+  
+  uBit.serial.send("begin command 1\n");
+  readWordFromCommand(command, 2, 10, serialnumber, 3);
 
   uint16_t featureset;
   command[0] = 0x20;
   command[1] = 0x2F;
-  if (!readWordFromCommand(command, 2, 10, &featureset, 1))
-    return false;
+  
+  uBit.serial.send("begin command 2\n");
+  readWordFromCommand(command, 2, 10, &featureset, 1);
   // Serial.print("Featureset 0x"); Serial.println(featureset, HEX);
   if ((featureset & 0xF0) != SGP30_FEATURESET)
     return false;
 
-  if (!IAQinit())
-    return false;
+  uBit.serial.send("IAQ init\n");
+  IAQinit();
 
   return true;
 }
@@ -96,8 +101,8 @@ bool xSG33::IAQmeasure(void) {
   command[0] = 0x20;
   command[1] = 0x08;
   uint16_t reply[2];
-  if (!readWordFromCommand(command, 2, 12, reply, 2))
-    return false;
+  uBit.serial.send("read TVOC and eCO2\n");
+  readWordFromCommand(command, 2, 12, reply, 2);
   TVOC = reply[1];
   eCO2 = reply[0];
   return true;
@@ -197,10 +202,13 @@ bool xSG33::readWordFromCommand(uint8_t command[],
   for (uint8_t i = 0; i < readlen; i++) {
     uint8_t crc = generateCRC(replybuffer + i * 3, 2);
 #ifdef I2C_DEBUG
-    uBit.serial.send("\t\tCRC calced: 0x");
+    uBit.serial.send("\t\tCRC calced: 0x\n");
+	uBit.serial.send("\n");
     uBit.serial.send(crc);
-    uBit.serial.send(" vs. 0x");
-    uBit.serial.send(replybuffer[i * 3 + 2], HEX);
+	uBit.serial.send("\n");
+    uBit.serial.send(" vs. 0x\n");
+    uBit.serial.send(replybuffer[i * 3 + 2]);
+	uBit.serial.send("\n");
 #endif
     if (crc != replybuffer[i * 3 + 2])
       return false;
@@ -209,8 +217,9 @@ bool xSG33::readWordFromCommand(uint8_t command[],
     readdata[i] <<= 8;
     readdata[i] |= replybuffer[i * 3 + 1];
 #ifdef I2C_DEBUG
-    uBit.serial.send("\t\tRead: 0x");
+    uBit.serial.send("\t\tRead: 0x\n");
     uBit.serial.send(readdata[i]);
+	uBit.serial.send("\n");
 #endif
   }
   return true;
