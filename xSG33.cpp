@@ -181,9 +181,9 @@ bool xSG33::readWordFromCommand(uint8_t command[],
     return false;
   }*/
   
-  //reply = uBit.i2c.write(SGP30_I2CADDR_DEFAULT << 1, (BUFFER_TYPE)command, commandLength, false);
+  reply = uBit.i2c.write(SGP30_I2CADDR_DEFAULT << 1, (BUFFER_TYPE)command, commandLength, false);
   
-  reply = uBit.i2c.write(0x76 << 1, (BUFFER_TYPE)command, commandLength, false);
+  //reply = uBit.i2c.write(0x76 << 1, (BUFFER_TYPE)command, commandLength, false);
   #ifdef I2C_DEBUG
   uBit.serial.send("Write \n");
   uBit.serial.send(reply ? "false" : "true");
@@ -204,8 +204,8 @@ bool xSG33::readWordFromCommand(uint8_t command[],
     return false;
   }*/
   
-  //reply = uBit.i2c.read(SGP30_I2CADDR_DEFAULT << 1, (BUFFER_TYPE)replybuffer, replylen, false);
-  reply = uBit.i2c.read(0x76 << 1, (BUFFER_TYPE)replybuffer, replylen, false);
+  reply = uBit.i2c.read(SGP30_I2CADDR_DEFAULT << 1, (BUFFER_TYPE)replybuffer, replylen, false);
+  //reply = uBit.i2c.read(0x76 << 1, (BUFFER_TYPE)replybuffer, replylen, false);
   
   #ifdef I2C_DEBUG
   uBit.serial.send("Read \n");
