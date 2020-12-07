@@ -1,6 +1,6 @@
 {
     "name": "SG33 new",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "SG33 sensor using SGP30",
     "license": "MIT",
     "dependencies": {
